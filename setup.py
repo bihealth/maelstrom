@@ -34,9 +34,7 @@ install_requirements = parse_requirements("requirements/base.txt")
 
 setup(
     author="Manuel Holtgrewe",
-    author_email=(
-        "manuel.holtgrewe@bihealth.de"
-    ),
+    author_email=("manuel.holtgrewe@bihealth.de"),
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
@@ -48,11 +46,7 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
     ],
-    entry_points={
-        "console_scripts": (
-            "maelstrom-snakemake = maelstrom.snakemake:main",
-        )
-    },
+    entry_points={"console_scripts": ("maelstrom-snakemake = maelstrom.snakemake:main",)},
     description="Implementation of ISA-tools data model and ISA-TAB",
     install_requires=install_requirements,
     license="MIT license",
