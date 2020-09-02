@@ -20,13 +20,17 @@ jobs:
         uses: actions/checkout@v2
         with:
           lfs: true
+      - name: Install module
+        run: pip install .
       - name: Install test dependencies
         run: pip install -r requirements/test.txt
       - name: Check Python style with black
         run: black --line-length 100 --check .
       - name: Check Snakemake style with snakefmt
         run: snakefmt -l 100 --check .
-      - name: Run flake8 linting
-        run: flake8 .
+      - name: Run pylama linting
+        run: pylama .
       - name: Check code with mypy
         run: mypy maelstrom
+      - name: Execute tests
+        run: pytest -vv .

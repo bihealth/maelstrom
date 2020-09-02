@@ -1,5 +1,5 @@
 .PHONY: default
-default: black flake8 maelstrom
+default: black pylama mypy
 
 .PHONY: black
 black:
@@ -11,9 +11,9 @@ black-check:
 	snakefmt -l 100 --check .
 	black -l 100 --check .
 
-.PHONY: flake8
+.PHONY: pylama
 flake8:
-	flake8 .
+	pylama
 
 .PHONY: test
 test:
