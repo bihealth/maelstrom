@@ -1,0 +1,22 @@
+configfile: "config.yaml"
+
+
+rule default:
+    input:
+        config["samples"],
+
+
+def maelstrom_bam_scan(wildcards):
+    return config[wildcars.sample]
+
+
+rule maelstrom_bam_scan:
+    input: maelstrom_bam_scan_input
+    output:
+        multiext("work/maelstrom_bam_scan/{sample}", ".bam", ".bam.md5", ".bam.bai", ".bam.bai.md5"),
+    shell:
+        """
+        output=$(echo {output} | tr ' ' '\\n' | grep 'bam$')
+        maelstrom-bam-scan {input} $output
+        samtools
+        """
