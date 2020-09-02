@@ -3,10 +3,12 @@
 default: black flake8
 
 black:
-	black -l 100 .
+	snakefmt -l 120 .
+	black -l 120 .
 
 black-check:
-	black -l 100 --check .
+	snakefmt -l 120 --check .
+	black -l 120 --check .
 
 flake8:
 	flake8 .
