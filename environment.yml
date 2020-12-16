@@ -1,0 +1,17 @@
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+packages:
+  - snakemake
+  - bcftools=1.10
+  - samtools=1.10
+  - htslib=1.10
+  - bioconductor-cn.mops
+  - genomation
+  - vcfpy
+  - logzero
+  - gatk4
+  - r-tidyverse
+  - sqlite =3.33
+  - attrs

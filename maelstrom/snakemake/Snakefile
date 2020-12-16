@@ -1,22 +1,78 @@
+import attr
+import cattr
+from hashlib import sha256
+import sys
+import typing
+
+
 configfile: "config.yaml"
+
+
+@attr.s(frozen=True, auto_attribs=True)
+class SampleInfo:
+    name: str
+    sex: str
+    bam: str
+    calls: typing.Dict[str, str]
+
+
+SAMPLE_INFOS = cattr.structure(config["samples"], typing.List[SampleInfo])
+BY_NAME = {s.name: s for s in SAMPLE_INFOS}
+SAMPLES = [s.name for s in SAMPLE_INFOS]
+BY_SEX = {sex: [s for s in SAMPLE_INFOS if s.sex == sex] for sex in ("male", "female")}
+MALES = [s.name for s in BY_SEX["male"]]
+FEMALES = [s.name for s in BY_SEX["female"]]
+
+
+REFERENCE = "/fast/projects/cubit/current/static_data/reference/GRCh37/hs37d5/hs37d5.fa"
+
+
+BLOCKLIST = (
+    "/fast/home/users/holtgrem_c/Data/exclude-grch37/ceph18.b37.lumpy.exclude.2014-01-15.bed"
+)
+
+
+CONTIGS = list(map(str, list(range(1, 23)) + ["X", "Y", "MT"]))
 
 
 rule default:
     input:
-        config["samples"],
+        expand(
+            "work/maelstrom_baf_gather/{tool}/all{suffix}", tool=["delly"], suffix=[".db"],
+        ), # expand(
+         #     "work/maelstrom_vcf_annotate/{tool}/{sample}/{sample}{suffix}",
+         #     sample=SAMPLES,
+         #     tool=["delly"],
+         #     suffix=[".bcf"],
+         # ),
+         # expand(
+         #     "work/maelstrom_doc_summary/{tool}/all{suffix}",
+         #     sample=SAMPLES,
+         #     tool=["delly"],
+         #     suffix=[".tsv"],
+         # ),
+         # expand(
+         #     "work/maelstrom_bam_collect_doc/{window_length}/{sample}/{sample}{suffix}",
+         #     window_length=[100, 300, 1000],
+         #     sample=SAMPLES,
+         #     suffix=[".bcf"],
+         # ),
+         # expand(
+         #     "work/cnmops_to_vcf/{window_length}/{sample}/{sample}{suffix}",
+         #     window_length=[300, 1000],
+         #     sample=SAMPLES,
+         #     suffix=[".vcf.gz"],
+         # ),
+         # "work/gatk_hc_gvcf_all/vcf/all.vcf.gz",
+         # "work/gatk_hc_gvcf_all_filtered/vcf/all_filtered.vcf.gz",
+         # expand(
+         #     "work/gatk_hc_gvcf_sample_filtered/{sample}/{sample}_filtered.vcf.gz",
+         #     sample=SAMPLES,
+         # )
 
 
-def maelstrom_bam_scan(wildcards):
-    return config[wildcars.sample]
+include: "maelstrom.smk"
 
 
-rule maelstrom_bam_scan:
-    input: maelstrom_bam_scan_input
-    output:
-        multiext("work/maelstrom_bam_scan/{sample}", ".bam", ".bam.md5", ".bam.bai", ".bam.bai.md5"),
-    shell:
-        """
-        output=$(echo {output} | tr ' ' '\\n' | grep 'bam$')
-        maelstrom-bam-scan {input} $output
-        samtools
-        """
+# include: "cnmops.smk"
+# include: "gatk_hc_gvcf.smk"

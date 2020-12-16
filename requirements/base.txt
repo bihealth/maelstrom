@@ -4,4 +4,4 @@ attrs
 
 snakemake
 
-yaml
+pyyaml

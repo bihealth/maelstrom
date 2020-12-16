@@ -24,9 +24,9 @@ def which(name: str) -> typing.Optional[str]:
 
 def main(args=None) -> int:
     try:
-        subprocess.check_call(
-            ["snakemake", "--snakefile", str(PATH_SNAKEFILE), *(args or sys.argv[1:])]
-        )
+        cmd = ["snakemake", "--snakefile", str(PATH_SNAKEFILE), *(args or sys.argv[1:])]
+        print(cmd, file=sys.stderr)
+        subprocess.check_call(cmd)
     except subprocess.CalledProcessError:
         return 1
     else:

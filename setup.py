@@ -56,6 +56,7 @@ setup(
     keywords="maelstrom",
     name="maelstrom",
     packages=find_packages(include=["maelstrom*"]),
+    scripts=("scripts/maelstrom-bed-sort",),
     test_suite="tests",
     tests_require=test_requirements,
     url="https://github.com/bihealth/maelstrom",

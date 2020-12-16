@@ -1,0 +1,26 @@
+{
+    "__default__": {
+        "cores": "1",
+        "partition": "critical",
+        "time": "08:00:00",
+        "memory": "4000"
+    },
+    "maelstrom_vcf_annotate": {
+      "memory": "{resources.mem_mb}"
+    },
+    "maelstrom_bam_scan": {
+      "memory": "8000"
+    },
+    "cnmops_call": {
+      "cores": "{threads}",
+      "memory": "180"
+    },
+    "gatk_hc_gvcf_all_on_interval": {
+        "time": "96:00:00",
+        "memory": "8000"
+    },
+    "maelstrom_baf_gather": {
+      "memory": "32000",
+      "cores": "8"
+    }
+}
